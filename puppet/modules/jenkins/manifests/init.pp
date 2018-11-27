@@ -6,9 +6,14 @@ class jenkins() {
     gpgkey   => 'https://jenkins-ci.org/redhat/jenkins-ci.org.key',
   }
 
+  package { 'java-1.8.0-openjdk': }
+
   package { 'jenkins':
     ensure  => 'present',
-    require => Yumrepo['jenkins'],
+    require => [
+      Package['java-1.8.0-openjdk'],
+      Yumrepo['jenkins'],
+    ],
   }
 
   service { 'jenkins':
